@@ -8,12 +8,15 @@ import {
   CREATE_PRODUCTS_REQUEST,
   CREATE_PRODUCTS_SUCCESS,
   CREATE_PRODUCTS_ERROR,
+  FILTER_BY_CATEGORIES,
+  FILTER_BY_CATEGORIES_TEXT,
 } from "../Action-Type/ProductActionTypes";
 
 export const productReducer = (
   state = {
     products: {
       productList: [],
+      filterProductList: [],
       loading: false,
       success: false,
       error: false,
@@ -38,6 +41,7 @@ export const productReducer = (
         ...state,
         products: {
           productList: [],
+          filterProductList: [],
           loading: false,
           success: false,
           error: false,
@@ -49,6 +53,7 @@ export const productReducer = (
         ...state,
         products: {
           productList: action.payload,
+          filterProductList: action.payload,
           loading: false,
           success: true,
           error: false,
@@ -60,6 +65,7 @@ export const productReducer = (
         ...state,
         products: {
           productList: action.payload,
+          filterProductList: action.payload,
           loading: false,
           success: false,
           error: true,
@@ -126,7 +132,32 @@ export const productReducer = (
           error: true,
         },
       };
-
+    case FILTER_BY_CATEGORIES:
+      const copiedProductList = [...state.products.productList];
+      const newProductList = copiedProductList.filter(
+        (item) => item.category === action.payload
+      );
+      console.log("PRODUCt", newProductList, copiedProductList, action.payload);
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          filterProductList: newProductList,
+        },
+      };
+    case FILTER_BY_CATEGORIES_TEXT:
+      const copiedProducts = [...state.products.productList];
+      const newList = copiedProducts.filter((item) => {
+        return Object.values(item).join('').toLowerCase().includes(action.payload.toLowerCase())
+    })
+  
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          filterProductList: newList,
+        },
+      };
     default:
       return state;
   }

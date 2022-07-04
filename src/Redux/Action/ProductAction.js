@@ -9,6 +9,8 @@ import {
   CREATE_PRODUCTS_REQUEST,
   CREATE_PRODUCTS_SUCCESS,
   CREATE_PRODUCTS_ERROR,
+  FILTER_BY_CATEGORIES,
+  FILTER_BY_CATEGORIES_TEXT
 } from "../Action-Type/ProductActionTypes";
 
 export const getProducts = () => async (dispatch, getState) => {
@@ -57,14 +59,14 @@ export const getProductDetail = (id) => async (dispatch, getState) => {
   }
 };
 
-
-export const createNewProduct = (id) => async (dispatch, getState) => {
+export const createNewProduct = (form) => async (dispatch, getState) => {
   try {
     dispatch({
       type: CREATE_PRODUCTS_REQUEST,
     });
-    const { data } = await axios.get(
-      `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products`
+    const { data } = await axios.post(
+      `https://62286b649fd6174ca82321f1.mockapi.io/case-study/products`,
+      form
     );
     dispatch({
       type: CREATE_PRODUCTS_SUCCESS,
@@ -79,4 +81,18 @@ export const createNewProduct = (id) => async (dispatch, getState) => {
           : error.message,
     });
   }
+};
+
+export const filterProductByCategory =
+  (category) => async (dispatch, getState) => {
+    dispatch({
+      type: FILTER_BY_CATEGORIES,
+      payload: category,
+    });
+  };
+export const filterProductByText = (text) => async (dispatch, getState) => {
+  dispatch({
+    type: FILTER_BY_CATEGORIES_TEXT,
+    payload: text,
+  });
 };

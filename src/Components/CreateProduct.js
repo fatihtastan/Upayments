@@ -3,21 +3,28 @@ import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewProduct } from "../Redux/Action/ProductAction";
+import { getCategories } from "../Redux/Action/CategoriesAction";
 import Swal from "sweetalert2";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const requestStatus = useSelector((state) => state.cart?.createProductInfo);
+  const categories = useSelector(
+    (state) => state.categories?.categories?.categoryList
+  );
   const [validated, setValidated] = useState(false);
   const [formValues, setFormValues] = useState({
-    productName: "",
-    desc: "",
-    imageURL: "",
-    category: 1,
+    name: "",
+    description: "",
+    avatar: "",
+    category: "",
     price: "",
-    ownEmail: "ftastanfanus@gmail.com",
+    developerEmail: "ftastanfanus@gmail.com",
   });
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
 
   useEffect(() => {
     if (requestStatus?.success) {
@@ -41,9 +48,10 @@ const CreateProduct = () => {
     } else {
       event.preventDefault();
       console.log(formValues);
-      dispatch(createNewProduct());
+      dispatch(createNewProduct(formValues));
     }
   };
+  console.log(categories);
   return (
     <>
       <h1 className="my-5">Create Product</h1>
@@ -56,9 +64,9 @@ const CreateProduct = () => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control
             required
-            value={formValues.productName}
+            value={formValues.name}
             onChange={(e) =>
-              setFormValues({ ...formValues, productName: e.target.value })
+              setFormValues({ ...formValues, name: e.target.value })
             }
             type="text"
             placeholder="Product name"
@@ -67,9 +75,9 @@ const CreateProduct = () => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <textarea
             required
-            value={formValues.desc}
+            value={formValues.description}
             onChange={(e) =>
-              setFormValues({ ...formValues, desc: e.target.value })
+              setFormValues({ ...formValues, description: e.target.value })
             }
             className="form-control"
             placeholder="Description"
@@ -81,9 +89,9 @@ const CreateProduct = () => {
           <Form.Control
             required
             onChange={(e) =>
-              setFormValues({ ...formValues, imageURL: e.target.value })
+              setFormValues({ ...formValues, avatar: e.target.value })
             }
-            value={formValues.imageURL}
+            value={formValues.avatar}
             type="url"
             placeholder="Image URL"
           />
@@ -98,7 +106,12 @@ const CreateProduct = () => {
             className="form-select"
             aria-label="Default select example"
           >
-            <option value="1">One</option>
+            <option key="0">Select Category</option>
+            {categories?.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -106,7 +119,7 @@ const CreateProduct = () => {
             required
             value={formValues.price}
             onChange={(e) =>
-              setFormValues({ ...formValues, price: e.target.value })
+              setFormValues({ ...formValues, price: +e.target.value })
             }
             type="number"
             placeholder="Price"

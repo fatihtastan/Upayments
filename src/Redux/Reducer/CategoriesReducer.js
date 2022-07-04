@@ -6,8 +6,8 @@ import {
   
   export const categoriesReducer = (
     state = {
-      products: {
-        categories: [],
+        categories: {
+        categoryList: [],
         loading: false,
         success: false,
         error: false,
@@ -21,7 +21,7 @@ import {
         return {
           ...state,
           categories: {
-            productList: [],
+            categoryList: [],
             loading: false,
             success: false,
             error: false,
@@ -32,7 +32,7 @@ import {
         return {
           ...state,
           categories: {
-            productList: action.payload,
+            categoryList: action.payload,
             loading: false,
             success: true,
             error: false,
@@ -43,7 +43,7 @@ import {
         return {
           ...state,
           categories: {
-            productList: action.payload,
+            categoryList: action.payload,
             loading: false,
             success: false,
             error: true,
