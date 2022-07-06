@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   filterProductByCategory,
   filterProductByText,
   getProducts,
-} from "../Redux/Action/ProductAction";
+} from "../../Redux/Action/ProductAction";
 import { Row, Col, Form } from "react-bootstrap";
-import ProductCart from "./ProductCart";
-import { getCategories } from "../Redux/Action/CategoriesAction";
+import ProductCart from "../../Components/ProductCart/ProductCart";
+import { getCategories } from "../../Redux/Action/CategoriesAction";
 import "./home.css";
 const Home = () => {
   const navigate = useNavigate();
@@ -25,14 +25,13 @@ const Home = () => {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const filterByCategory = (e) => {
-    console.log("TARGET", e.target.value);
     setCategory(e.target.value);
     dispatch(filterProductByCategory(e.target.value));
   };
   const searchProduct = (e) => {
-    console.log("TARGET", e.target.value);
     setSearchText(e.target.value);
     dispatch(filterProductByText(e.target.value));
   };
@@ -80,7 +79,7 @@ const Home = () => {
               className="form-select"
               aria-label="Default select example"
             >
-              <option>Select Category</option>
+              <option value={""}>Select Category</option>
               {categories?.map((item) => (
                 <option key={item.id} value={item.name}>
                   {item.name}

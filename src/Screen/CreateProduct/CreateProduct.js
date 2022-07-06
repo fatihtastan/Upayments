@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewProduct } from "../Redux/Action/ProductAction";
-import { getCategories } from "../Redux/Action/CategoriesAction";
+import { createNewProduct } from "../../Redux/Action/ProductAction";
+import { getCategories } from "../../Redux/Action/CategoriesAction";
 import Swal from "sweetalert2";
 
 const CreateProduct = () => {
@@ -24,6 +24,7 @@ const CreateProduct = () => {
   });
   useEffect(() => {
     dispatch(getCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const CreateProduct = () => {
       });
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestStatus?.success]);
 
   const sendNewProduct = (event) => {
@@ -47,11 +49,9 @@ const CreateProduct = () => {
       setValidated(true);
     } else {
       event.preventDefault();
-      console.log(formValues);
       dispatch(createNewProduct(formValues));
     }
   };
-  console.log(categories);
   return (
     <>
       <h1 className="my-5">Create Product</h1>

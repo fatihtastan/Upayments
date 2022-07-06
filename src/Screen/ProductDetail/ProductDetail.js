@@ -6,7 +6,7 @@ import {
   } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {getProductDetail} from "../Redux/Action/ProductAction"
+import {getProductDetail} from "../../Redux/Action/ProductAction"
 
 
 
@@ -14,12 +14,10 @@ function ProductDetail ({ match, location, history }) {
     const dispatch = useDispatch();
     const {id} = useParams();
     const productDetails = useSelector((state) => state.cart.productInfo?.productDetails);
-    // const { loading, error, product } = productDetails;
-  
     useEffect(() => {
         dispatch(getProductDetail(id));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(id)
     return <div className="mx-5 p-4">
       <Row>
         <Col className='col col-md-5'> 

@@ -8,7 +8,7 @@ const ProductCart = ({cart}) => {
     <Col  className='my-1'>
     <Link to={`/product-detail/${cart.id}`}>
     <Card  style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={cart.avatar} />
+      <Card.Img variant="top" src={cart.avatar}/>
       <Card.Body>
         <Card.Title>{cart.name} </Card.Title>
         <Card.Text>

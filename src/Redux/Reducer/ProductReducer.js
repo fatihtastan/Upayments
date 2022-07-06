@@ -133,11 +133,15 @@ export const productReducer = (
         },
       };
     case FILTER_BY_CATEGORIES:
+      let newProductList;
       const copiedProductList = [...state.products.productList];
-      const newProductList = copiedProductList.filter(
-        (item) => item.category === action.payload
-      );
-      console.log("PRODUCt", newProductList, copiedProductList, action.payload);
+      if(action.payload !== ""){
+         newProductList = copiedProductList.filter(
+          (item) => item.category === action.payload
+        );
+      }else {
+         newProductList= copiedProductList
+      }
       return {
         ...state,
         products: {
